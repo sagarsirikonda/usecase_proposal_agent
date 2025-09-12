@@ -1,0 +1,41 @@
+# --- Secrets ---
+# Never commit your environment variables file.
+.env
+
+# --- Virtual Environment ---
+# Ignore the virtual environment folder.
+agent-venv/
+.agnet-venv/
+env/
+.env/
+
+# --- Python Cache & Logs ---
+# Ignore Python cache files and logs.
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+celerybeat-schedule
+.pytest_cache/
+.coverage
+.log
+
+# --- Generated Output Files ---
+# Ignore all generated markdown proposals, but keep the README.
+*.md
+!README.md
+
+# --- Editor & IDE specific files ---
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# --- OS-specific files ---
+.DS_Store
+Thumbs.db
+
+# --- Other ---
+# Ignore lock files that may be environment-specific.
+crewai-rag-tool.lock
