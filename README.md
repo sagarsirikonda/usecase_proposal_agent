@@ -114,7 +114,7 @@ cd usecase_proposal_agent
 ### 2. Create a Virtual Environment
 ```bash
 python -m venv venv
-source venv\bin\activate  # On Windows, use `venv\Scripts\activate`
+source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
 ```
 
 ### 3. Install Dependencies
