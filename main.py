@@ -1,7 +1,6 @@
 import argparse
 from proposal_crew.crew import run_proposal_crew
 
-# Set up command-line argument parsing
 parser = argparse.ArgumentParser(description="Generate an AI proposal for a given company.")
 parser.add_argument("company", type=str, help="The name of the company or industry to research.")
 args = parser.parse_args()
@@ -17,7 +16,6 @@ if __name__ == '__main__':
     print("## Here is the Final Proposal: \n")
     print(result)
 
-    # Generate a dynamic filename and save the result
     file_name = f"{company_name.replace(' ', '_').lower()}_ai_proposal.md"
     with open(file_name, "w") as f:
         f.write(result)

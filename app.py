@@ -1,14 +1,11 @@
 import streamlit as st
 from proposal_crew.crew import run_proposal_crew
 
-# --- CUSTOM STYLING (CSS) ---
-# This CSS will be injected into the Streamlit app for a custom look and feel.
+# --- (CSS) ---
 def local_css(file_name):
     with open(file_name) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-# Create a 'style.css' file in the same directory with the content below
-# Or, for simplicity, we can define the style directly in the Python script.
 st.markdown("""
 <style>
     /* Main app background */
@@ -59,12 +56,17 @@ st.markdown("""
 
 # --- SIDEBAR ---
 st.sidebar.title("🤖 Control Panel")
-st.sidebar.image("https://www.gstatic.com/lamda/images/gemini/google_gemini_3_1920x1080_0a2c035f29d1012e105342a17058a98f.jpg")
 st.sidebar.info("Enter a company or industry below and click 'Generate Proposal' to start.")
 
 company_input = st.sidebar.text_input(
     "Company or Industry Name:",
     placeholder="e.g., 'NVIDIA'"
+)
+
+description_input = st.sidebar.text_area(
+    "Optional: Provide Additional Context",
+    placeholder="e.g., A mid-sized logistics company with 500 employees, looking to optimize fleet management. Uses a legacy system for routing and want to explore AI without a huge initial investment.",
+    height="content"
 )
 
 # --- MAIN PAGE ---
@@ -76,13 +78,19 @@ if st.sidebar.button("Generate Proposal"):
     else:
         st.info(f"🚀 Kicking off the analysis for: **{company_input}**")
         
-        with st.spinner("The AI Crew is assembling and beginning its mission... This may take a few minutes."):
-            # Run the crew
-            proposal_result = run_proposal_crew(company_input)
+        try:
+            with st.spinner("The AI Crew is assembling and beginning its mission... This may take a few minutes."):
+                # Run the crew
+                proposal_result = run_proposal_crew(company_input, description_input)
+        except Exception as e:
+            print(f"Error occurred: {e}") 
+            st.error("An internal server error occurred while communicating with the AI model. This is often a temporary issue. Please wait a moment and click 'Generate Proposal' again.")
 
-        st.success("Proposal Generated Successfully!")
-        
-        st.subheader("Your AI-Generated Proposal:")
+        if proposal_result:
+            st.success("Proposal Generated Successfully!")
+            
+            st.subheader("Your AI-Generated Proposal:")
+            
         st.markdown(proposal_result)
 
         # Download button

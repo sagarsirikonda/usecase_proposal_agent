@@ -2,11 +2,17 @@
 
 from crewai import Task
 
-def create_tasks(market_researcher, ai_strategist, resource_collector, proposal_writer, company_name):
+def create_tasks(market_researcher, ai_strategist, resource_collector, proposal_writer, company_name, company_description=None):
     """Creates and returns all the tasks for the crew."""
+
+    user_context = ""
+    if company_description:
+        user_context = f"\nHere is additional context provided by the user:\n--- {company_description}\n---"
+
     research_task = Task(
         description=f"""
             Conduct an in-depth market analysis of '{company_name}' and its primary industry.
+            {user_context}
             Your analysis must be meticulous and well-structured.
 
             Key areas to investigate:
@@ -30,7 +36,9 @@ def create_tasks(market_researcher, ai_strategist, resource_collector, proposal_
     use_case_task = Task(
         description=f"""
             Analyze the provided market research report on '{company_name}'. Based on the report's findings,
-            especially the company's official statements and identified challenges, propose a diverse
+            In addition to the report, you MUST consider the following critical context provided by the user:
+            {user_context}
+            Based on BOTH the research report and the user's context, propose a diverse
             portfolio of 4-7 high-impact AI use cases.
 
             Categorize each use case based on its strategic impact and implementation complexity:
